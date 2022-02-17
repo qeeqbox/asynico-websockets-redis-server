@@ -18,6 +18,7 @@ async def websocket_handler(websocket):
 	await pubsub.subscribe("alerts")
 	with suppress(Exception):
 		await gather(subscribers_task(websocket, pubsub),)
+	await pubsub.unsubscribe("alerts")
 	await pub_redis.close()
 
 start_server = serve(websocket_handler, '0.0.0.0', 8001)
